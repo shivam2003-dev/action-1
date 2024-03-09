@@ -17,7 +17,7 @@ jobs:
             - images : alpine
               os: windows-latest
           include:
-            - images : amd64/alphine
+            - images : amd64/alpine
               os: ubuntu-latest
           
 
