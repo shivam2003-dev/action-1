@@ -6,7 +6,10 @@ on:
 
 jobs:
     deploy:
+      
       strategy:
+        fail-fast: false 
+        max-parallel: 2
         matrix:
           os: [ ubuntu-latest , windows-latest , ubuntu-22.04 ]
           images : [hello-world , alpine ]
@@ -16,6 +19,7 @@ jobs:
           include:
             - images : amd64/alphine
               os: ubuntu-latest
+          
 
       runs-on: ${{ matrix.os }}
       steps:
