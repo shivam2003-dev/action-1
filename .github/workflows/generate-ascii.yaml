@@ -3,33 +3,46 @@ name: Generate ASCII Artwork
 on: push
 
 jobs: 
-    first_job:
+    build_job_1:
         runs-on: ubuntu-latest
         steps:
-            - name : Checkout repo
-              uses: actions/checkout@v4
- 
-            - name : List Repo files
-              run: ls -ltra
+            - name : Install cowsay 
+              run : sudo apt install cowsay -y 
 
-            - name :  Execute Shell Script 
-              run : |
-                chmod +x ascii-script.sh 
-                ./ascii-script.sh 
-            
+            - name: Exwcute cowsay command 
+              run : cowsay -f dragon " Run for Cover , I am a Dragon " >> dragon.txt
 
-            # - name: INstall Cowsay
-            #   run: sudo apt install cowsay -y
+            - name : Upload Dragon text
+              uses: actions/upload-artifact@v4
+              with:
+                name: dragon-text-file
+                path: dragon.txt 
 
-                
-            # - name : Display ASCII Character 
-            #   run : cowsay -f dragon " Run for Cover , I am a Dragon " >> dragon.txt
 
-            # - name :  test File exist 
-            #   run : grep -i "dragon" dragon.txt
-            
-            # - name : Read File
-            #   run : cat dragon.txt
-              
+    test_job_1 : 
+        needs: build_job_1
+        runs-on: ubuntu-latest
+        steps : 
+            - name: test for file existance
+              run : grep -i "dragon" dragon.txt
          
+            - name : Upload Dragon text
+              uses: actions/upload-artifact@v4
+              with:
+                name: dragon-text-file
 
+
+    deploy_job_1 : 
+        needs: test_job_1
+        runs-on: ubuntu-latest
+        steps : 
+            - name : Upload Dragon text
+              uses: actions/upload-artifact@v4
+              with:
+                name: dragon-text-file
+
+            - name : Read File 
+              run : cat dragon.txt
+
+            - name :  Deployed 
+              run : echo "Deploying ... .. ."
