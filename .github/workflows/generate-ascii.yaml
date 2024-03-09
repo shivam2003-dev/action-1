@@ -26,8 +26,8 @@ jobs:
             - name: test for file existance
               run : grep -i "dragon" dragon.txt
          
-            - name : Upload Dragon text
-              uses: actions/upload-artifact@v4
+            - name : Download Dragon text
+              uses: actions/download-artifact@v4
               with:
                 name: dragon-text-file
 
@@ -36,8 +36,8 @@ jobs:
         needs: test_job_1
         runs-on: ubuntu-latest
         steps : 
-            - name : Upload Dragon text
-              uses: actions/upload-artifact@v4
+            - name : Download Dragon text
+              uses: actions/download-artifact@v4
               with:
                 name: dragon-text-file
 
